@@ -81,6 +81,23 @@ services:
     networks:
       - rag_network
 
+  frontend:
+    build:
+      context: .
+      dockerfile: frontend/Dockerfile
+
+    container_name: rag_frontend
+    restart: unless-stopped
+
+    ports:
+      - "80:80"
+
+    depends_on:
+      - core_api
+
+    networks:
+      - rag_network
+
 volumes:
   postgres_data:
 
