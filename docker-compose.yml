@@ -1,0 +1,89 @@
+services:
+
+  postgres:
+    image: ankane/pgvector:latest
+    container_name: rag_postgres
+    restart: unless-stopped
+
+    environment:
+      POSTGRES_USER: myuser
+      POSTGRES_PASSWORD: mypassword
+      POSTGRES_DB: rag_db
+
+    ports:
+      - "5432:5432"
+
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+
+    networks:
+      - rag_network
+
+  redis:
+    image: redis:7-alpine
+    container_name: rag_redis
+    restart: unless-stopped
+
+    ports:
+      - "6379:6379"
+
+    networks:
+      - rag_network
+
+  core_api:
+    build:
+      context: .
+      dockerfile: core_api/Dockerfile
+
+    container_name: rag_core_api
+    restart: unless-stopped
+
+    ports:
+      - "8000:8000"
+
+    environment:
+      DATABASE_URL: postgresql://myuser:mypassword@postgres:5432/rag_db
+      REDIS_URL: redis://redis:6379/0
+      OLLAMA_BASE_URL: http://host.docker.internal:11434
+
+    depends_on:
+      - postgres
+      - redis
+
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
+
+    networks:
+      - rag_network
+
+  ingestion_worker:
+    build:
+      context: .
+      dockerfile: ingestion_worker/Dockerfile
+
+    container_name: rag_ingestion_worker
+    restart: unless-stopped
+
+    command: celery -A celery_app.celery_app worker --loglevel=info
+
+    environment:
+      DATABASE_URL: postgresql://myuser:mypassword@postgres:5432/rag_db
+      REDIS_URL: redis://redis:6379/0
+      OLLAMA_BASE_URL: http://host.docker.internal:11434
+
+    depends_on:
+      - postgres
+      - redis
+
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
+
+    networks:
+      - rag_network
+
+volumes:
+  postgres_data:
+
+networks:
+  rag_network:
+    driver: bridge

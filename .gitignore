@@ -1,0 +1,103 @@
+# Python
+
+**pycache**/
+*.py[cod]
+*.pyo
+*.pyd
+
+# Virtual Environments
+
+venv/
+.venv/
+env/
+ENV/
+
+# Environment Variables
+
+.env
+.env.*
+!.env.example
+
+# Logs
+
+logs/
+*.log
+
+# Testing
+
+.pytest_cache/
+.coverage
+.coverage.*
+htmlcov/
+
+# Linting & Type Checking
+
+.ruff_cache/
+.mypy_cache/
+
+# Build & Packaging
+
+build/
+dist/
+*.egg-info/
+.eggs/
+
+# Jupyter
+
+.ipynb_checkpoints/
+
+# IDEs
+
+.vscode/
+.idea/
+
+# macOS
+
+.DS_Store
+
+# Docker
+
+docker-compose.override.yml
+
+# Databases
+
+*.db
+*.sqlite3
+
+# PostgreSQL Volumes
+
+postgres_data/
+
+# Redis
+
+redis_data/
+
+# Vector Databases
+
+chroma_db/
+qdrant_storage/
+
+# Uploaded Files
+
+uploads/
+documents/
+
+# AI Models
+
+models/
+*.gguf
+
+# Ollama
+
+ollama/
+
+# Temporary Files
+
+tmp/
+temp/
+
+# Secrets
+
+secrets/
+credentials.json
+service-account.json
