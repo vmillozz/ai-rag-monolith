@@ -3,6 +3,13 @@ from sqlalchemy.orm import relationship
 from pgvector.sqlalchemy import Vector # Importiamo il tipo di dato Vector
 from core_api.database import Base
 
+class User(Base):
+    __tablename__ = "users"
+
+    id = Column(Integer, primary_key=True, index=True)
+    username = Column(String, unique=True, index=True, nullable=False)
+    hashed_password = Column(String, nullable=False)
+
 class Document(Base):
     __tablename__ = "documents"
 
