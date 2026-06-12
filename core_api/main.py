@@ -3,10 +3,10 @@ from typing import List, Dict
 
 from fastapi import FastAPI, Depends, File, HTTPException, UploadFile
 from sqlalchemy.orm import Session
-import database
-import models
-import schema
-import services as services
+from core_api import database
+from core_api import models
+from core_api import schema
+from core_api import services
 from celery import Celery
 import os
 

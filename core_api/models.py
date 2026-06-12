@@ -1,7 +1,7 @@
 from sqlalchemy import Column, Integer, String, Text, ForeignKey
 from sqlalchemy.orm import relationship
 from pgvector.sqlalchemy import Vector # Importiamo il tipo di dato Vector
-from database import Base
+from core_api.database import Base
 
 class Document(Base):
     __tablename__ = "documents"

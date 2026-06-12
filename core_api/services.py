@@ -1,7 +1,7 @@
 import os
 import requests
 from sqlalchemy.orm import Session
-import models
+from core_api import models
 
 OLLAMA_BASE = os.getenv("OLLAMA_BASE_URL", "http://localhost:11434")
 OLLAMA_URL = f"{OLLAMA_BASE}/api/embeddings"
