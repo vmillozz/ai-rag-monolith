@@ -1,4 +1,4 @@
-const API_BASE_URL = "http://localhost:8000";
+const API_BASE_URL = "";  // path relative, passa per Nginx
 
 export interface ChatResponse {
   answer: string;
@@ -17,12 +17,11 @@ export interface TaskStatusResponse {
 }
 
 export const apiService = {
-  // 1. Carica il documento (restituisce il task_id di Celery)
   uploadDocument: async (file: File): Promise<{ task_id: string; message: string }> => {
     const formData = new FormData();
     formData.append("file", file);
 
-    const response = await fetch(`${API_BASE_URL}/documents/upload`, {
+    const response = await fetch(`${API_BASE_URL}/api/documents/upload`, {
       method: "POST",
       body: formData,
     });
@@ -30,16 +29,14 @@ export const apiService = {
     return response.json();
   },
 
-  // 2. Controlla lo stato del Task in background
   checkTaskStatus: async (taskId: string): Promise<TaskStatusResponse> => {
-    const response = await fetch(`${API_BASE_URL}/tasks/${taskId}`);
+    const response = await fetch(`${API_BASE_URL}/api/tasks/${taskId}`);
     if (!response.ok) throw new Error("Errore nel recupero dello stato del task");
     return response.json();
   },
 
-  // 3. Invia la domanda alla Chat RAG
   askQuestion: async (question: string): Promise<ChatResponse> => {
-    const response = await fetch(`${API_BASE_URL}/chat`, {
+    const response = await fetch(`${API_BASE_URL}/api/chat`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ question }),

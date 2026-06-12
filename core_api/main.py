@@ -12,8 +12,13 @@ from celery import Celery
 import os
 from fastapi.middleware.cors import CORSMiddleware
 # Client Celery per inviare compiti al worker in background
-celery_client = Celery("ingestion_tasks", broker=os.getenv("REDIS_URL", "redis://localhost:6379/0"))
+REDIS_URL = os.getenv("REDIS_URL", "redis://redis:6379/0")
 
+celery_client = Celery(
+    "ingestion_tasks",
+    broker=REDIS_URL,
+    backend=REDIS_URL  # ← mancava questo
+)
 
 
 @asynccontextmanager
@@ -39,12 +44,11 @@ app = FastAPI(
 
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["*"],
+    allow_origins=["http://localhost", "http://localhost:80"],
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
 )
-
 @app.get("/")
 def read_root():
     return {"message": "Benvenuto nelle API del Microservizio RAG!"}
