@@ -10,9 +10,11 @@ from core_api import schema
 from core_api import services
 from celery import Celery
 import os
-
+from fastapi.middleware.cors import CORSMiddleware
 # Client Celery per inviare compiti al worker in background
 celery_client = Celery("ingestion_tasks", broker=os.getenv("REDIS_URL", "redis://localhost:6379/0"))
+
+
 
 @asynccontextmanager
 async def lifespan(app: FastAPI):
@@ -33,6 +35,14 @@ app = FastAPI(
     title="RAG Core API (Microservices)",
     version="1.0.0",
     lifespan=lifespan,
+)
+
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["*"],
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
 )
 
 @app.get("/")

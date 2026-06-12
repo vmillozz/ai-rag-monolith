@@ -83,8 +83,8 @@ services:
 
   frontend:
     build:
-      context: .
-      dockerfile: frontend/Dockerfile
+      context: ./frontend 
+      dockerfile: Dockerfile
 
     container_name: rag_frontend
     restart: unless-stopped
