@@ -1,5 +1,6 @@
 from contextlib import asynccontextmanager
 from typing import List, Dict
+from sqlalchemy import text
 
 from fastapi import FastAPI, Depends, File, HTTPException, UploadFile
 from sqlalchemy.orm import Session
@@ -15,8 +16,17 @@ celery_client = Celery("ingestion_tasks", broker=os.getenv("REDIS_URL", "redis:/
 
 @asynccontextmanager
 async def lifespan(app: FastAPI):
-    # Creazione tabelle all'avvio (gestito dal Core Service o dal Worker)
-    models.Base.metadata.create_all(bind=database.engine)
+
+    with database.engine.connect() as conn:
+        conn.execute(
+            text("CREATE EXTENSION IF NOT EXISTS vector")
+        )
+        conn.commit()
+
+    models.Base.metadata.create_all(
+        bind=database.engine
+    )
+
     yield
 
 app = FastAPI(
