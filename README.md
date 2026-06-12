@@ -25,3 +25,26 @@ L'applicazione è stata migrata da un'architettura monolitica a una struttura a 
    ```bash
    ollama pull nomic-embed-text
    ollama pull llama3
+---
+
+## 💻 Parte 2: Il Frontend (React + TypeScript + Tailwind)
+
+Per il mercato italiano, saper strutturare un frontend pulito e tipato in **TypeScript** fa un'enorme differenza. Non serve creare decine di pagine; bastano **due viste principali**:
+1.  **Dashboard di Ingestione:** Un'area di caricamento drag-and-drop per i file `.txt` che mostra la lista dei documenti e lo stato di avanzamento del task di Celery.
+2.  **Interfaccia Chat:** Una chat in stile ChatGPT per interrogare l'AI, completa di indicazione delle **fonti** utilizzate per generare la risposta.
+
+Ecco lo scheletro della struttura delle cartelle per il tuo frontend (da mettere in una cartella parallela chiamata `frontend/`):
+
+```text
+frontend/
+├── src/
+│   ├── components/
+│   │   ├── ChatWindow.tsx       # Finestra di chat con messaggi dell'utente e dell'AI
+│   │   ├── DocumentUploader.tsx # Drag and drop per caricare i file
+│   │   └── SourceBadge.tsx      # Mostra i chunk di testo usati come fonte
+│   ├── services/
+│   │   └── api.ts               # Chiamate Axios/Fetch verso http://localhost:8000
+│   ├── App.tsx
+│   └── main.tsx
+├── package.json
+└── tailwind.config.js
