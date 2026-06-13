@@ -9,11 +9,11 @@ from celery import Celery
 import os
 
 # Import interni
-import database
-import models
-import schema
-import services
-import auth
+from core_api import database
+from core_api import models
+from core_api import schema
+from core_api import services
+from core_api import auth
 
 # Client Celery per inviare compiti al worker in background
 REDIS_URL = os.getenv("REDIS_URL", "redis://redis:6379/0")
