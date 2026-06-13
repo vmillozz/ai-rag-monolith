@@ -4,8 +4,8 @@ from fastapi import Depends, HTTPException, status
 from fastapi.security import OAuth2PasswordBearer
 from passlib.context import CryptContext
 from sqlalchemy.orm import Session
-import database
-import models
+from core_api import database
+from core_api import models
 from core_api.config import (
     JWT_SECRET,
     ALGORITHM,

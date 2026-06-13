@@ -16,3 +16,10 @@ class DocumentResponse(BaseModel):
 
 class QueryRequest(BaseModel):
     question: str
+# Aggiungi questo in fondo al tuo schema.py
+class UserCreate(BaseModel):
+    username: str
+    password: str
+
+    class Config:
+        from_attributes = True
