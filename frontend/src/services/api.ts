@@ -103,7 +103,7 @@ export const apiService = {
       body: JSON.stringify({ question }),
     });
     if (!res.ok) {
-      const err = await safeJson(res);
+      const err = await safeJson(res); 
       if (res.status === 401) throw new Error("Sessione scaduta. Riaccedi.");
       if (res.status === 404) throw new Error("Nessun documento trovato. Carica prima un file!");
       throw new Error(err?.detail || "Errore nella generazione della risposta");
